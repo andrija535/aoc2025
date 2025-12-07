@@ -38,7 +38,12 @@ module Day2 = struct
     in
     if n_len = 1 then Seq.drop 1 res else res
 
-  let seq_distinct = Fun.compose (Seq.flat_map (Seq.take 1)) (Seq.group (=))
+  let seq_distinct s = 
+    List.of_seq s
+    |> List.sort Int.compare
+    |> List.to_seq
+    |> Seq.group (=)
+    |> Seq.flat_map (Seq.take 1)
 
   let invalid_ranges lower_bound upper_bound =
     let max_can_repeat = int_of_string @@ String.init (digit_count upper_bound / 2) (Fun.const '9') in
@@ -52,10 +57,6 @@ module Day2 = struct
     parse input
     |> List.fold_left (fun acc (low,high) ->
       let invalid_ranges = invalid_ranges low high in
-      (* Debug output *)
-      (* Printf.printf "Invalid ranges between %d and %d: " low high; *)
-      (* Seq.iter (Printf.printf "%d ") invalid_ranges; *)
-      (* print_newline (); *)
       Seq.fold_left (+) acc invalid_ranges) 0
 end
 

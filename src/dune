@@ -5,3 +5,7 @@
 (executable
   (public_name day2)
   (name day2))
+
+(executable
+  (public_name day3)
+  (name day3))
